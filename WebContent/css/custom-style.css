@@ -1,0 +1,129 @@
+/*/////////////////////////////////////////////////////////////////////
+ // 
+ // Custom theme code styles
+ // Written by Themelize.me (http://themelize.me)
+ // 
+ // This is an empty starter template for overriding styles
+ // set by Bootstrap & the theme
+ // 
+ // ----------------------------------------------------
+ // 
+ // Remove unused code for better performances
+ // 
+ // ----------------------------------------------------
+ // 
+ // @see - Usefuls tools online for editing
+ // 1. http://charliepark.org/bootstrap_buttons/ - Button style generator
+ // 2. http://www.colorzilla.com/gradient-editor/ - CSS3 gradient maker
+ // 
+ // @note
+ // To ensure custom styles are picked up
+ // wrap definitions in body tag
+ // ie.
+ // body .navbar-inner {
+ //   background: #ff0000;
+ // }
+ // 
+ /////////////////////////////////////////////////////////////////////*/
+/*
+ * --------------------------------------------------
+ * 1. General Elements
+ *--------------------------------------------------
+ */
+#navigation {
+  /* 1. Navigation wrapper */
+}
+#highlighted {
+  /* 2. Highlighted (below header) wrapper */
+}
+#content {
+  /* 3. Content wrapper */
+}
+#content-below {
+  /* 4. Content Below wrapper */
+}
+#footer {
+  /* 5. Footer wrapper */
+}
+/*
+ * --------------------------------------------------
+ * 2. Colours
+ *-------------------------------------------------- 
+ */
+/*
+ * --------------------------------------------------
+ * 3. Responsiveness/media queries
+ *--------------------------------------------------
+ */
+@media (max-width: 979px) {
+  /* Navbar Collapsed (mobile) */
+}
+@media (min-width: 980px) {
+  /* Navbar Expanded (desktop) */
+}
+@media (min-width: 1200px) {
+  /* Responsive: Large desktop and up (wide) */
+}
+@media (max-width: 979px) {
+  /* Responsive: Mobile to desktop (common for all narrow devices) */
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  /* Responsive: Tablet to desktop (normal) */
+}
+@media (max-width: 767px) {
+  /* Responsive: Landscape phone to desktop/tablet (narrow) */
+}
+@media (max-width: 480px) {
+  /* Responsive: Up to Landscape phone (mobile) */
+}
+/*
+ * --------------------------------------------------
+ * 4. Misc
+ * Other stuff
+ *--------------------------------------------------
+ */
+
+
+
+/*
+custom airen style
+*/
+
+/*************************
+******  validator	******
+**************************/
+checkbox.validation-error,
+radio.validation-error, 
+input.validation-error,
+textarea.validation-error {
+  color: #b94a48;
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+span.help-inline {
+  color: #b94a48;
+}
+
+checkbox.validation-success,
+radio.validation-success,
+input.validation-success,
+textarea.validation-success {
+  color: #468847;
+  border-color: #468847;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+/* for OvenWebPlayer */
+#player_example div div div ol li { padding-top: 30px; }
+.android_image_portrait { width: 240px; height: 400px; }
+.android_image_landscape { width: 400px; height: 240px; }
+.iphone_image_portrait { width: 320px; height: 568px; }
+.iphone_image_landscape { width: 568px; height: 320px; }
+.ipad_image_portrait { width: 384px; height: 512px; }
+.ipad_image_landscape { width: 512px; height: 384px; }
+.other_image_landscape { width: 499px; height: 226px; }

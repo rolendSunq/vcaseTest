@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/aop		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+						http://www.springframework.org/schema/context	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+						http://www.springframework.org/schema/jdbc		http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+						http://www.springframework.org/schema/jee		http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+						http://www.springframework.org/schema/jms		http://www.springframework.org/schema/jms/spring-jms.xsd
+						http://www.springframework.org/schema/lang		http://www.springframework.org/schema/lang/spring-lang-3.2.xsd
+						http://www.springframework.org/schema/mvc		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+						http://www.springframework.org/schema/task		http://www.springframework.org/schema/task/spring-task-3.2.xsd
+						http://www.springframework.org/schema/tx		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+						http://www.springframework.org/schema/util		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean id="stringHttpMessageConverter"
+					class="com.airensoft.skovp.sample.utils.common.ConfigurableStringHttpMessageConverter">
+					<constructor-arg value="UTF-8" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+
+
+	<!-- MULTIPART RESOLVER CONFIGURATIONS <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+		<property name="defaultEncoding" value="UTF-8"/> </bean> -->
+
+	<!-- VIEW RESOLVER CONFIGURATIONS ModelAndView를 통해 포워딩 되는 페이지를 찾는 규칙을 정의합니다. 
+		"sample" 이라는 이름의 요청이 있다면 이것은 자동으로 "/WEB-INF/jsp/sample.jsp"를 찾게 됩니다. -->
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="com.airensoft.skovp.sample.utils.aop.AuthRequiredException">
+					error/error.auth
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="omsResponder"
+		class="com.airensoft.skovp.sample.utils.ovpconnector.OMSConnectorResponse"
+		scope="request">
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="omsConnector" class="com.airensoft.skovp.sample.utils.ovpconnector.OMSConnector"
+		scope="request">
+		<aop:scoped-proxy />
+	</bean>
+
+
+	<context:annotation-config />
+
+	<!-- CONTEXT COMPONENT SCAN CONFIGURATIONS Annotations 기반의 컴포넌트를 스캔합니다. 
+		기본적으로 com.airensoft.skovp.ovpcdnlog이하의 패키지들에서 검색을 합니다. Spring에서 정의한 Stereo 타입의 
+		Annotation을 검색합니다. @Controller, @Component, @Service, @Repository 등이 있습니다. -->
+	<context:component-scan base-package="com.airensoft.skovp.sample" />
+
+
+	<!-- ASYNCHRONOUS TASK ANNOTATION CONFIGURATION -->
+	<task:annotation-driven />
+
+	<!-- ASPECT-J AUTO PROXYING CONFIGURATIONS Spring AOP 기능중 Aspect-j 기반의 AOP 
+		Proxy를 자동으로 생성하여주는 설정입니다. 위의 설정들과 맞물려 Annotation 기반의 @Aspect를 사용할 수 있게 됩니다. -->
+	<aop:aspectj-autoproxy />
+
+	<!-- MODEL-VIEW-CONTROLLER ANNOTATION CONFIURATION 어노테이션 기반의 @Controller 
+		모델을 사용합니다. <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"> 
+		<mvc:message-converters> <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> 
+		<property name="objectMapper" value=""/> </bean> </mvc:message-converters> 
+		</mvc:annotation-driven> -->
+	<mvc:annotation-driven />
+
+
+	<!-- <mvc:interceptors> <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor"> 
+		<property name="cacheSeconds" value="0" /> <property name="useExpiresHeader" 
+		value="true" /> <property name="useCacheControlHeader" value="true" /> <property 
+		name="useCacheControlNoStore" value="true" /> </bean> </mvc:interceptors> -->
+
+</beans>
