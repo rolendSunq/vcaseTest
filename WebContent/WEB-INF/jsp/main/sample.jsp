@@ -29,15 +29,16 @@
 <!-- Your custom override -->
 <link href="css/custom-style.css" rel="stylesheet">
 
-<link rel="shortcut icon" href="/image/logo.png">
-<link rel="apple-touch-icon-precomposed" href="/image/logo.png">
+<link rel="shortcut icon" href="./image/logo.png">
+<link rel="apple-touch-icon-precomposed" href="./image/logo.png">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Rambla|Calligraffitti' rel='stylesheet' type='text/css'>
 
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="http://sm.vcase.myskcdn.com:80/solutions/ovfp/binary/ko/swfobject.js"></script>
 
 <script type="text/javascript">
-var isMobile = {
+	var isMobile = {
 	    Android: function() {
 	        return navigator.userAgent.match(/Android/i);
 	    },
@@ -58,42 +59,42 @@ var isMobile = {
 	    }
 	};
 
-$(document).ready(function() {
-	$(".content_item").click(function()
-	{
-		
-		
-		
-		var content_id = $(this).attr("data-content-id");
-		var content_thumb = $(this).attr("data-content-thumb");
-		var content_title= $(this).attr("data-content-title");
-		$.getJSON("/content/player/" + content_id, null,   
-			      function(data) {   
-			var streaming_url = data.streaming_url;
+	$(document).ready(function() {
+		$("#content_item").click(function(){
+			console.log("one");
+			var content_id = $(this).attr("data-content-id");
+			console.log("content_id: ", content_id);
+			var content_thumb = $(this).attr("data-content-thumb");
+			console.log("content_thumb: ", content_thumb);
+			var content_title= $(this).attr("data-content-title");
+			console.log("content_title: " + content_title);
 			
-			// 모바일인경우
-			if(isMobile.any())
-				{
-				window.open(streaming_url);
+			$.getJSON("/content/player/" + content_id, null, function(data) {   
+				var streaming_url = data.streaming_url;
+				console.log("two");
+				// 모바일인경우
+				if(isMobile.any()) {
+					window.open(streaming_url);
+				} else {
+					console.log("three");
+					if(streaming_url) {
+						streaming_url = streaming_url.replace("/&/g", "&amp;amp;");
+					}
+					
+					$('#player_modal').modal('show'); 
+					$("#modal-content").empty();
+					$("#modal-content").append(
+						'<object data="http://vcase.myskcdn.com/static/ovp/ovp.swf" name="ovp" id="ovp" type="application/x-shockwave-flash" align="middle" width="640" height="480" >'+
+						'<param value="high" name="quality">'+ 
+						'<param value="#000000" name="bgcolor">'+
+						'<param value="always" name="allowscriptaccess">'+
+						'<param value="true" name="allowfullscreen">'+
+						'<param value="title='+content_title+'&amp;mediaUrl='+ streaming_url+'&amp;thumbUrl='+content_thumb+'&amp;pid='+${player_id}+'&amp;apiUrl=http://api.vcase.myskcdn.com&amp;autoPlay=true" name="flashvars">'+
+					'</object>');
 				}
-			else
-				{
-				if(streaming_url) {
-					streaming_url = streaming_url.replace(/&/g, "&amp;amp;");
-				}
-			$('#player_modal').modal('show'); 
-			$("#modal-content").empty();
-			$("#modal-content").append('<object data="http://vcase.myskcdn.com/static/ovp/ovp.swf" name="ovp" id="ovp" type="application/x-shockwave-flash" align="middle" width="640" height="480" >'+
-					'<param value="high" name="quality">'+ 
-					'<param value="#000000" name="bgcolor">'+
-					'<param value="always" name="allowscriptaccess">'+
-					'<param value="true" name="allowfullscreen">'+
-					'<param value="title='+content_title+'&amp;mediaUrl='+ streaming_url+'&amp;thumbUrl='+content_thumb+'&amp;pid='+${player_id}+'&amp;apiUrl=http://api.vcase.myskcdn.com&amp;autoPlay=false" name="flashvars">'+
-				'</object>');
-				}
-		});  
+			});  
+		});
 	});
-});
 </script>
 
 
@@ -122,7 +123,7 @@ $(document).ready(function() {
           <div class="span8"> 
             <!--branding/logo--> 
             <a class="brand" href="#" title="Home">
-            <h1><img src="/image/logo.png" alt="logo"/></h1>
+            <img src="./image/logo.png" alt="logo"/>
             </a>
             <div class="slogan">VCase PC,Mobile Web Sample.</div>
           </div>
@@ -148,7 +149,12 @@ $(document).ready(function() {
         <div class="nav-collapse collapse"> 
           <!--main navigation-->
           <ul class="nav" id="main-menu">
-            <li class="home-link"><a href="#"><i class="icon-home hidden-phone"></i><span class="visible-phone">Home</span></a></li>
+            <li class="home-link">
+            	<a href="#">
+            		<i class="icon-home hidden-phone"></i>
+            		<span class="visible-phone">Home</span>
+            	</a>
+            </li>
             <li><a href="#" class="menu-item">최신 동영상</a></li>
 			<li><a href="#" class="menu-item">인기 동영상</a></li>
 			<li><a href="#" class="menu-item">관심 동영상</a></li>
@@ -163,33 +169,31 @@ $(document).ready(function() {
 </div>
 
 <div id="content">
-  <div class="container"> 
-    <!-- OVERVIEW -->
-    <div class="block features">
-      <h2 class="title-divider"><span>최신 동영상</span></h2>
-      
-      <ul class="thumbnails">
-      <c:forEach var="object" items="${list}" varStatus="status">
-        <li id="content_item"class="span3 content_item" data-content-id="${object.content_id}" data-content-thumb = "${object.thumb_url}" data-content-title=">${object.title}"style="height:380px;"><img src="${object.thumb_url}" />
-          <h3 class="title">${object.title}</h3>
-          <p>재생시간 : ${object.duration}
-          <br>파일크기 : ${object.file_size}
-          <br>등록일시 : ${object.mod_date}</p>
-        </li>
-      </c:forEach>
-      </ul>
-    </div>
-
-
+  	<div class="container"> 
+	    <!-- OVERVIEW -->
+	    <div class="block features">
+	      <h2 class="title-divider"><span>최신 동영상</span></h2>
+	      
+	      <ul class="thumbnails">
+	      <c:forEach var="object" items="${list}" varStatus="status">
+	        <li id="content_item"class="span3 content_item" data-content-id="${object.content_id}" data-content-thumb = "${object.thumb_url}" data-content-title=">${object.title}"style="height:380px;"><img src="${object.thumb_url}" />
+	          <h3 class="title">${object.title}</h3>
+	          <p>재생시간 : ${object.duration}
+	          <br>파일크기 : ${object.file_size}
+	          <br>등록일시 : ${object.mod_date}</p>
+	        </li>
+	      </c:forEach>
+	      </ul>
+	    </div>
+	</div>
 </div>
-
 <!-- FOOTER -->
 <footer id="footer">
   <div class="container">
     <div class="row-fluid">
       <div class="subfooter">
         <div class="span6">
-          Copyright 2014 &copy; SKTelecom</p>
+          <p>Copyright 2014 &copy; SKTelecom</p>
         </div>
       </div>
     </div>

@@ -119,11 +119,12 @@ public class SampleViewController
 	 * @param request
 	 * @param content_id
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/content/player/{content_id}")
 	@ResponseBody
 	public String getContentStringUrl(HttpServletRequest request, @PathVariable("content_id") Integer content_id)
 	{
+		System.out.println("******getJSON******");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 미디어
@@ -133,5 +134,29 @@ public class SampleViewController
 		map.put("streaming_url",streaming_url);
 		
 		return new Gson().toJson(map);
+	}*/
+	/**
+	 * content_id를 이용하여 스트리밍URL을 생성하는 API
+	 * OMS로 부터 스트리밍 URL을 받아온다.
+	 * @param request
+	 * @param content_id
+	 * @return
+	 */
+	@RequestMapping(value = "/content/player/{content_id}")
+	@ResponseBody
+	public void getContentStringUrl(HttpServletRequest request, @PathVariable("content_id") Integer content_id)
+	{
+		System.out.println("******getJSON******");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 미디어
+		omsResponder = omsConnector.RequestPulbishStreamingContent(content_id, 5, null, null, "rtmp", false);
+		String streaming_url = omsResponder.getRootDataElement().getAsJsonObject().get("url").getAsString();
+		
+		map.put("streaming_url",streaming_url);
+		
+		Gson gson = new Gson();
+		gson.toJson(map);
+		System.out.println(gson.toString());
 	}
 }
