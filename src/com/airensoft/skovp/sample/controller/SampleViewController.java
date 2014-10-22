@@ -120,7 +120,7 @@ public class SampleViewController
 	 * @param content_id
 	 * @return
 	 */
-	@RequestMapping(value = "content/player/{content_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "content/player/{content_id}")
 	@ResponseBody
 	public String getContentStringUrl(@PathVariable("content_id") Integer content_id)
 	{

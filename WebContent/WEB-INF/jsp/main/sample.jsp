@@ -64,31 +64,24 @@ var isMobile = {
 			var content_id = $(this).attr("data-content-id");
 			var content_thumb = $(this).attr("data-content-thumb");
 			var content_title= $(this).attr("data-content-title");
-			/* $.getJSON("/content/player/" + content_id, null, function(data) {   
+			$.getJSON("content/player/" + content_id, null, function(data) {
 				var streaming_url = data.streaming_url;
-				console.log("streaming_url", streaming_url);
-				// 모바일인경우
-				if(isMobile.any()) {
-					window.open(streaming_url);
-				} else {
-					if(streaming_url) {
-						streaming_url = streaming_url.replace(/&/g, "&amp;amp;");
-				}
-					
+				// encodeURI() 가 특수문자를 인코딩 하지 않기 때문에 http:// 와 같은 주소전체를 인코딩할때 사용하는 url encode 함수이다
+				streaming_url = encodeURIComponent(streaming_url);
 				$('#player_modal').modal('show'); 
 				$("#modal-content").empty();
 				$("#modal-content").append(
-						'<object data="http://vcase.myskcdn.com/static/ovp/ovp.swf" name="ovp" id="ovp" type="application/x-shockwave-flash" align="middle" width="640" height="480" >'+
-						'<param value="high" name="quality">'+ 
-						'<param value="#000000" name="bgcolor">'+
-						'<param value="always" name="allowscriptaccess">'+
-						'<param value="true" name="allowfullscreen">'+
-						'<param value="title='+content_title+'&amp;mediaUrl='+ streaming_url+'&amp;thumbUrl='+content_thumb+'&amp;pid='+${player_id}+'&amp;apiUrl=http://api.vcase.myskcdn.com&amp;autoPlay=false" name="flashvars">'+
-						'</object>');
-			}});  */ 
+					'<object data="http://vcase.myskcdn.com/static/ovp/ovp.swf" name="ovp" id="ovp" type="application/x-shockwave-flash" align="middle" width="640" height="480" >' +
+					'<param value="high" name="quality">'+ 
+					'<param value="#000000" name="bgcolor">'+
+					'<param value="always" name="allowscriptaccess">'+
+					'<param value="true" name="allowfullscreen">'+
+					'<param value="apiUrl=http://api.vcase.myskcdn.com&amp;mediaUrl='+ streaming_url+'&amp;title='+content_title+'&amp;thumbUrl='+content_thumb+'&amp;pid='+${player_id}+'&amp;autoPlay=false" name="flashvars">'+
+					'</object>'
+				);
+			});
 			
-			 	var sendUrl = "content/player/" + content_id;
-				//var params = content_id;
+			 	/* var sendUrl = "content/player/" + content_id;
 			  
 			    $.ajax({      
 			        type:"POST",  
@@ -101,23 +94,22 @@ var isMobile = {
 			        	$('#player_modal').modal('show'); 
 						$("#modal-content").empty();
 						$("#modal-content").append(
-								'<object data="http://vcase.myskcdn.com/static/ovp/ovp.swf" name="ovp" id="ovp" type="application/x-shockwave-flash" align="middle" width="640" height="480" >'+
+								'<object data="http://vcase.myskcdn.com/static/ovp/ovp.swf" name="ovp" id="ovp" type="application/x-shockwave-flash" align="middle" width="640" height="480" >' +
 								'<param value="high" name="quality">'+ 
 								'<param value="#000000" name="bgcolor">'+
 								'<param value="always" name="allowscriptaccess">'+
 								'<param value="true" name="allowfullscreen">'+
-								'<param value="title=' + content_title + 
-									'&amp;mediaUrl=' + streaming_url + 
-									'&amp;thumbUrl=' + content_thumb + 
-									'&amp;pid=' + ${player_id} + 
-									'&amp;apiUrl=http://api.vcase.myskcdn.com&amp;autoPlay=true" name="flashvars">'+
-								'</object>');
+								'<param value="apiUrl=http://api.vcase.myskcdn.com&amp;mediaUrl='+ 
+									streaming_url + '&amp;title=' + content_title + '&amp;thumbUrl=' + 
+									content_thumb + '&amp;pid=' + ${player_id} + '&amp;autoPlay=false" name="flashvars">'+
+								'</object>'
+								);
 			        },   
 			        beforeSend: null,  
 			        error:function(e){  
 			            console.log(e);
 			        }  
-			    });  
+			    }); */  
 		});
 	});
 </script>
