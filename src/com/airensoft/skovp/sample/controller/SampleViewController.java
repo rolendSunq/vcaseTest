@@ -128,7 +128,6 @@ public class SampleViewController
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 재생할 미디어 정보를 가져온다.
-		//Integer content_id, Integer allow_count, Integer allow_start_Date, Integer allow_end_date, String protocol, boolean encryption
 		omsResponder = omsConnector.RequestPulbishStreamingContent(content_id, 5, null, null, "rtmp", false);
 		String streaming_url = omsResponder.getRootDataElement().getAsJsonObject().get("url").getAsString();
 		System.out.println("\n" + streaming_url);
